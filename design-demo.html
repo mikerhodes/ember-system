@@ -26,6 +26,9 @@
       --text-muted:        #a89888;
       --ui-chrome:         #b8a898;
       --error:             #c0392b;
+      --warning:           #c48a1a;
+      --success:           #6a9a5a;
+      --info:              #2980b9;
       --surface-border:    #ccc4b8;
       --surface-bottom:    #b8b0a4;
       --drag-outline:      #c4622d;
@@ -60,6 +63,9 @@
       --text-muted:        #786050;
       --ui-chrome:         #786050;
       --error:             #e05040;
+      --warning:           #e0aa30;
+      --success:           #8fc07a;
+      --info:              #5aabdc;
       --surface-border:    #4a3c2c;
       --surface-bottom:    #5a4a36;
       --drag-outline:      #c4622d;
@@ -85,6 +91,9 @@
       --text-muted:        #93a1a1;
       --ui-chrome:         #93a1a1;
       --error:             #dc322f;
+      --warning:           #b58900;
+      --success:           #859900;
+      --info:              #268bd2;
       --surface-border:    #d5ceb8;
       --surface-bottom:    #b5ae98;
       --drag-outline:      #268bd2;
@@ -110,6 +119,9 @@
       --text-muted:        #586e75;
       --ui-chrome:         #586e75;
       --error:             #dc322f;
+      --warning:           #b58900;
+      --success:           #859900;
+      --info:              #268bd2;
       --surface-border:    #1a5060;
       --surface-bottom:    #1f5c6e;
       --drag-outline:      #268bd2;
@@ -138,6 +150,9 @@
       --text-muted:        #7aaac8;
       --ui-chrome:         #6ca8d2;
       --error:             #c0392b;
+      --warning:           #b07a10;
+      --success:           #3a8a5a;
+      --info:              #176bad;
       --surface-border:    #96b8d4;
       --surface-bottom:    #5080a8;
       --drag-outline:      #176bad;
@@ -668,6 +683,180 @@
       color: var(--error);
     }
 
+    /* --- Callouts ---
+       Left border only — no background tint, no raised treatment.
+       Callouts display information; they are not interactive.
+       Border colour signals semantic meaning: info/success/warning/error. */
+    .callout {
+      border-left: 4px solid var(--surface-border);
+      padding: 10px 14px;
+      font-size: 0.8125rem;
+      color: var(--text-active);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .callout-title {
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .callout-info    { border-left-color: var(--info); }
+    .callout-success { border-left-color: var(--success); }
+    .callout-warning { border-left-color: var(--warning); }
+    .callout-error   { border-left-color: var(--error); }
+
+    .callout-info    .callout-title { color: var(--info); }
+    .callout-success .callout-title { color: var(--success); }
+    .callout-warning .callout-title { color: var(--warning); }
+    .callout-error   .callout-title { color: var(--error); }
+
+    .callout-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 480px;
+    }
+
+    /* --- Chips / tag pills ---
+       Raised like buttons — they invite clicking. Active chip uses --accent. */
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      background: var(--surface-bg);
+      border: 1px solid var(--surface-border);
+      border-bottom: 3px solid var(--surface-bottom);
+      border-radius: 99px;
+      padding: 3px 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--accent-dark);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .chip.active {
+      background: var(--accent);
+      border-color: var(--accent-dark);
+      border-bottom-color: var(--accent-dark);
+      color: #fff;
+    }
+
+    /* --- Table ---
+       Rows are flat — no raised treatment. Dividers use --surface-border.
+       Use .ref-table inside a .table-container. */
+
+    /* --- Empty state ---
+       Flat panel content — muted text centred, no raised surfaces. */
+    .empty-state {
+      padding: 32px 16px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+    }
+
+    .empty-state-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-secondary);
+    }
+
+    /* --- Drag-over panel state ---
+       Accent outline signals a valid drop target. No box-shadow. */
+    .panel.drag-over {
+      background: var(--focus-container-bg);
+      outline: 2px solid var(--drag-outline);
+      outline-offset: -1px;
+    }
+
+    /* --- Reference table (demo scaffold) ---
+       Used to explain variable relationships. Not a system component. */
+    .ref-table {
+      font-size: 0.8125rem;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .ref-table th {
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      padding: 0 12px 8px;
+      border-bottom: 1px solid var(--surface-border);
+    }
+
+    .ref-table td {
+      padding: 6px 12px;
+      color: var(--text-active);
+      border-bottom: 1px solid var(--surface-border);
+      font-family: monospace;
+      font-size: 0.75rem;
+    }
+
+    .ref-table tr:last-child td { border-bottom: none; }
+
+    .ref-table td:first-child { color: var(--text-secondary); font-family: inherit; }
+
+    /* Table container: flat border, no border-bottom thickness.
+       The table holds data — it should not look pressable. */
+    .table-container {
+      border: 1px solid var(--surface-border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    /* --- Raised vs flat comparison row --- */
+    .compare-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .compare-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .compare-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+    }
+
+    .compare-items {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .stat-block {
+      font-size: 0.8125rem;
+      color: var(--text-active);
+      padding: 6px 10px;
+      background: var(--page-bg);
+      border: 1px solid var(--surface-border);
+      border-radius: 5px;
+    }
+
     /* =====================================================================
        END COMPONENT CSS
        ===================================================================== */
@@ -967,6 +1156,244 @@
             <button class="btn btn-primary" type="submit">Add task</button>
           </div>
         </form>
+      </section>
+
+      <!-- RAISED VS FLAT — the core depth rule
+           Raised elements (border-bottom: 3px solid --surface-bottom) invite action.
+           Flat elements (border: 1px only) receive content or display read-only data.
+           The contrast between them is intentional — do not raise inputs or stat blocks. -->
+      <section>
+        <div class="section-label">Raised vs flat</div>
+        <div class="compare-row">
+          <div class="compare-group">
+            <div class="compare-label">Raised — actionable, pressable, draggable</div>
+            <div class="compare-items">
+              <button class="btn btn-primary">+ Add task</button>
+              <button class="btn">Edit</button>
+              <div class="card" style="max-width:180px;">
+                <div class="card-header">
+                  <input type="checkbox"> <span class="card-title">A task card</span>
+                </div>
+              </div>
+              <kbd>⌘ K</kbd>
+            </div>
+          </div>
+          <div class="compare-group">
+            <div class="compare-label">Flat — receives content or displays data</div>
+            <div class="compare-items">
+              <input class="form-input" type="text" placeholder="Text input" style="width:160px;">
+              <div class="stat-block">14 open · 3 blocked</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DARK THEME SURFACE INVERSION
+           In dark themes three variables flip their relationship vs. light themes.
+           This is counterintuitive — read carefully before building a dark theme. -->
+      <section>
+        <div class="section-label">Dark theme: inverted variable relationships</div>
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Umber (light)</th>
+              <th>Umber Dark</th>
+              <th>Why it inverts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>--surface-bg vs --container-bg</td>
+              <td>#fdfcfa &gt; #ede8e0 (lighter)</td>
+              <td>#32281c &gt; #261f16 (lighter)</td>
+              <td>Cards must lift above the panel in both modes</td>
+            </tr>
+            <tr>
+              <td>--surface-bottom vs --surface-bg</td>
+              <td>#b8b0a4 (darker — shadow edge)</td>
+              <td>#5a4a36 (lighter — highlight edge)</td>
+              <td>In dark mode a darker bottom creates a harsh hole; a lighter one glows</td>
+            </tr>
+            <tr>
+              <td>--accent-dark</td>
+              <td>#5a4030 (darker than accent)</td>
+              <td>#e07840 (lighter than accent)</td>
+              <td>Button borders must be visible; darkening accent makes them disappear</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- CHROME VARIABLE SPLIT — Corporate Blues proof-point
+           --sidebar-bg and --header-bg are independent variables.
+           Switch to Corporate Blues to see this live: the sidebar goes dark navy
+           while the header and content area stay white.
+           No component CSS changes — only the theme variables differ. -->
+      <section>
+        <div class="section-label">Chrome split: sidebar vs header</div>
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Variable group</th>
+              <th>Umber (unified)</th>
+              <th>Corporate Blues (split)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>--sidebar-bg</td>
+              <td>#ede8e0 (container-bg)</td>
+              <td>#3a5878 (dark navy)</td>
+            </tr>
+            <tr>
+              <td>--header-bg</td>
+              <td>#f7f3ee (page-bg)</td>
+              <td>#ffffff (white)</td>
+            </tr>
+            <tr>
+              <td>--page-bg</td>
+              <td>#f7f3ee</td>
+              <td>#ffffff</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- BADGES
+           Standalone badge variants. Inactive: --surface-border bg with --text-muted.
+           Active: --accent bg with white text. Error: --error bg with white text.
+           Badges adapt to theme automatically — never hardcode colours. -->
+      <section>
+        <div class="section-label">Badges</div>
+        <div class="btn-row">
+          <span class="badge">5</span>
+          <span class="badge" style="background:var(--accent);color:#fff;">3</span>
+          <span class="badge" style="background:var(--error);color:#fff;">blocked</span>
+          <span class="badge">draft</span>
+          <span class="badge" style="background:var(--accent);color:#fff;">active</span>
+        </div>
+      </section>
+
+      <!-- FILTER CHIPS / TAG PILLS
+           Raised like buttons — pill-shaped. Active chip uses --accent fill.
+           Use for filters, tags, and segmented selections. -->
+      <section>
+        <div class="section-label">Filter chips and tag pills</div>
+        <div class="chip-row">
+          <span class="chip active">All</span>
+          <span class="chip">In Progress</span>
+          <span class="chip">Blocked</span>
+          <span class="chip">Done</span>
+          <span class="chip">My tasks</span>
+        </div>
+      </section>
+
+      <!-- TABLE
+           Rows are flat — no raised treatment, no box-shadow.
+           Column headers use the all-caps section header style.
+           Row dividers use --surface-border.
+           The table itself sits inside a raised card. -->
+      <section>
+        <div class="section-label">Table</div>
+        <div style="max-width:560px;">
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Assignee</th>
+                <th>Status</th>
+                <th>Sprint</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Migrate session store</td>
+                <td>Mike Rhodes</td>
+                <td>In Progress</td>
+                <td>14</td>
+              </tr>
+              <tr>
+                <td>Refactor webhook dispatcher</td>
+                <td>Dana</td>
+                <td>In Review</td>
+                <td>14</td>
+              </tr>
+              <tr>
+                <td>Add structured logging</td>
+                <td>—</td>
+                <td>Backlog</td>
+                <td>15</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- EMPTY STATE
+           Used when a panel or list has no items.
+           Flat — no raised surfaces. Text uses --text-muted / --text-secondary.
+           Keep it minimal: a title and one line of guidance is enough. -->
+      <section>
+        <div class="section-label">Empty state</div>
+        <div class="panel" style="max-width:280px;">
+          <div class="panel-header">
+            <span class="panel-title">Backlog</span>
+            <span class="badge">0</span>
+          </div>
+          <div class="empty-state">
+            <div class="empty-state-title">No tasks</div>
+            Add a task to get started.
+          </div>
+        </div>
+      </section>
+
+      <!-- DRAG-OVER PANEL STATE
+           When a panel is a valid drop target, apply .drag-over.
+           Uses --drag-outline (accent colour) as a 2px inset outline.
+           Background shifts to --focus-container-bg.
+           No box-shadow — outline only. -->
+      <section>
+        <div class="section-label">Drag-over panel</div>
+        <div class="panel drag-over" style="max-width:200px;">
+          <div class="panel-header">
+            <span class="panel-title">In Progress</span>
+            <span class="badge">3</span>
+          </div>
+          <div class="panel-cards">
+            <div class="card">
+              <div class="card-header">
+                <input type="checkbox"> <span class="card-title">Drop here…</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CALLOUTS
+           Left border signals meaning — no background fill, no raised treatment.
+           Callouts are informational; they should not look pressable.
+           Title colour matches border colour. Body text uses --text-active. -->
+      <section>
+        <div class="section-label">Callouts</div>
+        <div class="callout-stack">
+          <div class="callout callout-info">
+            <div class="callout-title">Info</div>
+            Redis 7 is available in the staging environment. Test your connection string before cutover.
+          </div>
+          <div class="callout callout-success">
+            <div class="callout-title">Success</div>
+            Dual-write validation passed. Both stores are in sync.
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">Warning</div>
+            The cutover window closes in 2 hours. Incomplete migrations will roll back automatically.
+          </div>
+          <div class="callout callout-error">
+            <div class="callout-title">Error</div>
+            Cannot connect to Redis cluster. Check your credentials and network access.
+          </div>
+        </div>
       </section>
 
       <!-- TEXT STYLES

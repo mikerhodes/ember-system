@@ -47,7 +47,10 @@ In dark themes, `--surface-bg`, `--surface-bottom`, and `--accent-dark` invert t
 | `--text-secondary`| Notes, captions, all-caps section and panel headers                   |
 | `--text-muted`    | De-emphasised items only — timestamps, completed items                |
 | `--ui-chrome`     | Status lines, shortcut hints — the quietest readable text             |
-| `--error`         | Error messages                                                        |
+| `--error`         | Error messages and error callout border/title                         |
+| `--warning`       | Warning callout border and title                                      |
+| `--success`       | Success callout border and title                                      |
+| `--info`          | Info callout border and title                                         |
 
 ### Borders
 
@@ -468,6 +471,43 @@ Errors appear inline near the relevant UI (e.g. in the header status bar), not b
 
 ---
 
+## Callouts
+
+Callouts use a left border to signal semantic meaning — no background fill, no raised treatment. They display information; they are not interactive.
+
+Four variants, each using a dedicated semantic colour variable:
+
+```css
+.callout {
+  border-left: 4px solid var(--surface-border);
+  padding: 10px 14px;
+  font-size: 0.8125rem;
+  color: var(--text-active);
+}
+
+.callout-title {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+
+.callout-info    { border-left-color: var(--info); }
+.callout-success { border-left-color: var(--success); }
+.callout-warning { border-left-color: var(--warning); }
+.callout-error   { border-left-color: var(--error); }
+
+.callout-info    .callout-title { color: var(--info); }
+.callout-success .callout-title { color: var(--success); }
+.callout-warning .callout-title { color: var(--warning); }
+.callout-error   .callout-title { color: var(--error); }
+```
+
+Do not use a background tint on callouts. The left border alone carries the semantic signal. Do not use `box-shadow`.
+
+---
+
 ## Themes
 
 Apply a theme by setting the variables below on `:root` or a `[data-theme]` attribute on `<html>`. Switch themes at runtime with `document.documentElement.dataset.theme = 'blues'`.
@@ -491,6 +531,9 @@ Warm terracotta on cream. The reference theme — the system was built around it
   --text-muted:         #a89888;
   --ui-chrome:          #b8a898;
   --error:              #c0392b;
+  --warning:            #c48a1a;
+  --success:            #6a9a5a;
+  --info:               #2980b9;
   --surface-border:     #ccc4b8;
   --surface-bottom:     #b8b0a4;
   --drag-outline:       #c4622d;
@@ -522,6 +565,9 @@ The same warm rust accent against deep brown backgrounds. Cards lift lighter; bo
   --text-muted:         #786050;
   --ui-chrome:          #786050;
   --error:              #e05040;
+  --warning:            #e0aa30;
+  --success:            #8fc07a;
+  --info:               #5aabdc;
   --surface-border:     #4a3c2c;
   --surface-bottom:     #5a4a36;
   --drag-outline:       #c4622d;
@@ -553,6 +599,9 @@ The classic Solarized light palette. A cool blue accent on warm yellowed white.
   --text-muted:         #93a1a1;
   --ui-chrome:          #93a1a1;
   --error:              #dc322f;
+  --warning:            #b58900;
+  --success:            #859900;
+  --info:               #268bd2;
   --surface-border:     #d5ceb8;
   --surface-bottom:     #b5ae98;
   --drag-outline:       #268bd2;
@@ -584,6 +633,9 @@ The dark counterpart to Solarized. Deep teal backgrounds, muted blue-grey text, 
   --text-muted:         #586e75;
   --ui-chrome:          #586e75;
   --error:              #dc322f;
+  --warning:            #b58900;
+  --success:            #859900;
+  --info:               #268bd2;
   --surface-border:     #1a5060;
   --surface-bottom:     #1f5c6e;
   --drag-outline:       #268bd2;
@@ -615,6 +667,9 @@ Clean navy and sky blue on white. The sidebar uses a dark navy chrome against th
   --text-muted:         #7aaac8;
   --ui-chrome:          #6ca8d2;
   --error:              #c0392b;
+  --warning:            #b07a10;
+  --success:            #3a8a5a;
+  --info:               #176bad;
   --surface-border:     #96b8d4;
   --surface-bottom:     #5080a8;
   --drag-outline:       #176bad;
