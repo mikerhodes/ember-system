@@ -599,6 +599,13 @@
       align-items: center;
       justify-content: space-between;
     }
+
+    .demo-note {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 12px;
+    }
   </style>
 </head>
 <body>
@@ -653,7 +660,8 @@
     <div class="content">
 
       <section>
-        <div class="section-label">Board</div>
+        <div class="section-label">Panels and cards</div>
+        <div class="demo-note">Panels are flat trays — background colour only, no border. Cards inside them are raised with a thick bottom border. The active panel gets a deeper background and its title takes the accent colour.</div>
         <div class="board">
 
           <div class="panel">
@@ -734,7 +742,8 @@
       </section>
 
       <section>
-        <div class="section-label">Task detail</div>
+        <div class="section-label">Detail card with error</div>
+        <div class="demo-note">A raised card used as a detail view. Errors appear inline below the relevant element — not in a modal or at the top of the page.</div>
         <div class="detail-card">
           <h2>Migrate session store to Redis cluster</h2>
           <p>
@@ -758,6 +767,7 @@
 
       <section>
         <div class="section-label">Buttons</div>
+        <div class="demo-note">All buttons are raised with a thick bottom border — they should feel like physical keys. Primary button uses the accent colour. The pressed state collapses the bottom border and shifts down 2px.</div>
         <div class="btn-row">
           <button class="btn btn-primary">+ Add task</button>
           <button class="btn">Edit</button>
@@ -770,6 +780,7 @@
 
       <section>
         <div class="section-label">Keyboard shortcuts</div>
+        <div class="demo-note">Use &lt;kbd&gt; for keyboard shortcuts. Same raised treatment as buttons and cards — they look like physical keycaps.</div>
         <div class="shortcut-row">
           <div class="shortcut-item"><kbd>N</kbd> New task</div>
           <div class="shortcut-item"><kbd>⌘ K</kbd> Command palette</div>
@@ -781,7 +792,8 @@
       </section>
 
       <section>
-        <div class="section-label">Checklist</div>
+        <div class="section-label">Checkboxes and checklist</div>
+        <div class="demo-note">Custom checkboxes match the surface style. Checked items use the accent fill. Completed list items are struck through in the muted chrome colour.</div>
         <div class="checkbox-list">
           <label class="checkbox-item">
             <input type="checkbox"> Update environment variables in prod config
@@ -802,7 +814,8 @@
       </section>
 
       <section>
-        <div class="section-label">New task form</div>
+        <div class="section-label">Form inputs</div>
+        <div class="demo-note">Inputs and textareas are flat — a single border, no thick bottom edge. They sit recessed against the surface. Only the submit button is raised. Focus switches the border to the accent colour.</div>
         <form class="form-card" onsubmit="return false;">
           <div class="form-field">
             <label class="form-label" for="task-title">Title</label>
@@ -823,6 +836,7 @@
 
       <section>
         <div class="section-label">Text styles</div>
+        <div class="demo-note">App title in monospace accent. Section headers all-caps in secondary colour. Body text in text-active. Secondary/meta text smaller in text-secondary. UI chrome (timestamps, hints) in ui-chrome. Errors in the error colour.</div>
         <div class="type-block">
           <h1>ember</h1>
           <div class="section-header-demo">Active Sprint — Week 11</div>
