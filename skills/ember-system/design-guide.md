@@ -1,6 +1,6 @@
 # Design Guide
 
-This guide defines the visual design system. It is theme-agnostic: the component patterns, variable roles, and layout rules apply to any theme. Apply a theme by linking a theme file from `themes/` — the available themes are listed at the end of this guide.
+This guide defines the visual design system. Component patterns, variable roles, and layout rules apply to any theme. Apply a theme by linking a theme file from `themes/` — available themes are listed at the end.
 
 ---
 
@@ -15,6 +15,67 @@ Avoid:
 
 ---
 
+## Raised Surface Treatment
+
+The thick bottom border creates depth — not box-shadow. Apply it to elements that invite action or can be physically moved. When everything is raised, nothing is.
+
+**Good candidates:**
+- Buttons (primary and secondary)
+- Cards and list items
+- `<kbd>` keycap labels
+- Dropdown and select triggers (the visible control, not the open menu)
+- Clickable filter chips and tag pills
+- Segmented control segments (especially the selected one)
+- Draggable items (raised treatment reinforces the "lifted" state)
+- Toasts and notification banners (they float above the page)
+- Modal dialogs (a distinct surface above the rest of the UI)
+- Assignee/user chips in selectors
+
+**Leave flat:**
+- Form inputs and textareas (recessed; they receive content)
+- Container panels and columns
+- Read-only metadata, stat blocks, table rows
+- Section labels and dividers
+
+```css
+background: var(--surface-bg);
+border: 1px solid var(--surface-border);
+border-bottom: 3px solid var(--surface-bottom);
+border-radius: 6px;
+```
+
+### Primary buttons
+
+Primary buttons use the accent as background with white text. On hover, darken the background — don't use opacity:
+
+```css
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent-dark);
+  border-bottom-color: var(--accent-dark);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-dark-hover);
+  border-bottom-color: var(--accent-dark-hover);
+}
+```
+
+### Button press feedback
+
+When a button is active (pressed), collapse the bottom border and nudge it down:
+
+```css
+button:active {
+  border-bottom-width: 1px;
+  transform: translateY(2px);
+}
+```
+
+---
+
 ## Variables
 
 All components use CSS custom properties. Each theme file sets these on `:root`. Each variable has a defined role — never substitute one for another.
@@ -25,7 +86,7 @@ All components use CSS custom properties. Each theme file sets these on `:root`.
 |----------------------|----------------------------------------------------------------------|
 | `--accent`           | Primary accent: title, active section header, count badge, links, checkbox fill |
 | `--accent-hover`     | Accent background on hover — a darkened version of `--accent`        |
-| `--accent-dark`      | Darker accent for text on light surfaces and for button borders      |
+| `--accent-dark`      | Button borders and borders on accent-filled elements                 |
 | `--accent-dark-hover`| Darkened `--accent-dark` used on hover for button borders            |
 
 ### Backgrounds
@@ -34,10 +95,8 @@ All components use CSS custom properties. Each theme file sets these on `:root`.
 |------------------------|-------------------------------------------------------------------|
 | `--page-bg`            | Body background — the outermost surface                          |
 | `--container-bg`       | Default panel and column background — slightly darker than page  |
-| `--focus-container-bg` | Active or highlighted panel — warmer/deeper than `--container-bg`|
+| `--focus-container-bg` | Active or focused panel/nav item — warmer/deeper than `--container-bg`|
 | `--surface-bg`         | Raised elements: cards, buttons, `<kbd>` — lightest surface      |
-
-In dark themes, `--surface-bg`, `--surface-bottom`, and `--accent-dark` invert their relationship to surrounding values — see Umber and Umber Dark in the Themes section for a worked example of a light/dark pair.
 
 ### Text
 
@@ -60,17 +119,18 @@ In dark themes, `--surface-bg`, `--surface-bottom`, and `--accent-dark` invert t
 | `--surface-bottom` | Thick bottom border on raised elements — darker than `--surface-bg` in light themes to create a shadow edge; *lighter* than `--surface-bg` in dark themes to create a highlight edge instead |
 | `--drag-outline`   | Drop-target outline — typically matches `--accent`                                                       |
 
-When building a dark theme, three variable relationships invert vs. a light theme:
+Two variable relationships differ between light and dark themes:
 
 | Variable | Light theme | Dark theme | Why |
 |---|---|---|---|
-| `--surface-bg` vs `--container-bg` | surface lighter | surface lighter | Cards must lift above the panel in both modes |
-| `--surface-bottom` vs `--surface-bg` | darker (shadow edge) | lighter (highlight edge) | In dark mode a darker bottom creates a harsh hole; a lighter one glows |
-| `--accent-dark` | darker than `--accent` | lighter than `--accent` | Button borders must be visible; darkening accent makes them disappear |
+| `--surface-bottom` vs `--surface-bg` | darker (shadow edge) | lighter (highlight edge) | A darker bottom in dark mode creates a harsh hole; a lighter one glows |
+| `--accent-dark` vs `--accent` | darker | lighter | Button borders must be visible; darkening accent in dark mode makes them disappear |
+
+In both light and dark themes, `--surface-bg` must be lighter than `--container-bg` so cards lift above the panel.
 
 ### Chrome (sidebar and header)
 
-The chrome variables let the sidebar and header differ visually from the content area. In a theme with a dark sidebar on a light background (like Corporate Blues), only these variables change — no component CSS differs.
+Chrome variables let the sidebar and header differ visually from the content area. A dark sidebar on a light background (like Corporate Blues) changes only these variables — no component CSS differs.
 
 | Variable           | Role                                      |
 |--------------------|-------------------------------------------|
@@ -119,71 +179,6 @@ h1 {
 | Section header   | `0.75rem`  | 700    | All caps, `letter-spacing: 0.08em`, `var(--text-secondary)` |
 | Secondary text   | `0.75rem`  | 400    | `var(--text-secondary)`, `white-space: pre-wrap` |
 | UI chrome        | `0.75rem`  | 400    | `var(--ui-chrome)` — status lines, hints    |
-
----
-
-## Raised Surface Treatment
-
-The thick bottom border creates depth — not box-shadow. Apply it to elements that invite action or can be physically moved. When everything is raised, nothing is.
-
-**Good candidates:**
-- Buttons (primary and secondary)
-- Cards and list items
-- `<kbd>` keycap labels
-- Dropdown and select triggers (the visible control, not the open menu)
-- Clickable filter chips and tag pills
-- Segmented control segments (especially the selected one)
-- Draggable items (raised treatment reinforces the "lifted" state)
-- Toasts and notification banners (they float above the page)
-- Modal dialogs (a distinct surface above the rest of the UI)
-- Assignee/user chips in selectors
-
-**Leave flat:**
-- Form inputs and textareas (recessed; they receive content)
-- Container panels and columns
-- Read-only metadata, stat blocks, table rows
-- Section labels and dividers
-
-```css
-background: var(--surface-bg);
-border: 1px solid var(--surface-border);
-border-bottom: 3px solid var(--surface-bottom);
-border-radius: 6px;
-```
-
-In dark themes, `--surface-bg` should be lighter than `--container-bg` (cards lift up), and `--surface-bottom` can be lighter than `--surface-bg` to create a highlight edge rather than a dark shadow.
-
-`<kbd>` elements use the same raised treatment as cards and buttons.
-
-### Primary buttons
-
-Primary buttons use the accent as background with white text. On hover, darken the background — don't use opacity:
-
-```css
-.btn-primary {
-  background: var(--accent);
-  border-color: var(--accent-dark);
-  border-bottom-color: var(--accent-dark);
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-dark-hover);
-  border-bottom-color: var(--accent-dark-hover);
-}
-```
-
-### Button press feedback
-
-When a button is active (pressed), collapse the bottom border and nudge it down:
-
-```css
-button:active {
-  border-bottom-width: 1px;
-  transform: translateY(2px);
-}
-```
 
 ---
 
@@ -293,7 +288,7 @@ When a panel is a drop target, show a solid accent outline:
 
 ## Sidebar Nav
 
-The sidebar uses `--sidebar-bg`, `--sidebar-text`, and `--sidebar-border`. The chrome variables let the sidebar differ from the content area — a theme can use a dark sidebar on a light background by setting only those three variables. Nav links must have `color` set explicitly — `<a>` tags do not inherit `color` from `body` and fall back to the browser's default blue without it.
+The sidebar uses `--sidebar-bg`, `--sidebar-text`, and `--sidebar-border`. Nav links must have `color` set explicitly — `<a>` tags do not inherit `color` from `body` and fall back to the browser's default blue without it.
 
 ```css
 .sidebar {
@@ -323,7 +318,7 @@ Section labels within the sidebar use the shared all-caps header style (see Typo
 
 ## Header Layout
 
-The page header uses `--header-bg`, `--header-text`, and `--header-border`. Use CSS grid with equal outer columns so the centred element stays truly centred regardless of content width on either side.
+The page header uses `--header-bg`, `--header-text`, and `--header-border`. Equal outer columns keep the centred element truly centred regardless of content width on either side.
 
 ```css
 header {
@@ -473,22 +468,9 @@ label {
 
 ---
 
-## Error Messages
-
-Errors appear inline near the relevant UI (e.g. in the header status bar), not below the main content:
-
-```css
-.error {
-  color: var(--error);
-  font-size: 0.75rem;
-}
-```
-
----
-
 ## Callouts
 
-Callouts use a left border to signal semantic meaning — no background fill, no raised treatment. They display information; they are not interactive.
+Callouts use a left border to signal semantic meaning — no background fill, no raised treatment, no `box-shadow`. The border alone carries the semantic signal.
 
 Four variants, each using a dedicated semantic colour variable:
 
@@ -519,7 +501,18 @@ Four variants, each using a dedicated semantic colour variable:
 .callout-error   .callout-title { color: var(--error); }
 ```
 
-Do not use a background tint on callouts. The left border alone carries the semantic signal. Do not use `box-shadow`.
+---
+
+## Error Messages
+
+Errors appear inline near the relevant UI (e.g. in the header status bar or inside a related card), not below the main content:
+
+```css
+.error {
+  color: var(--error);
+  font-size: 0.75rem;
+}
+```
 
 ---
 
@@ -543,15 +536,3 @@ Available themes:
 | `solarized-dark.css`         | Solarized palette, dark variant.                         |
 | `corporate-blues-light.css`  | Navy and sky blue on white; dark sidebar chrome.         |
 | `corporate-blues-dark.css`   | Dark navy ground with steel blue accents; dark sidebar.  |
-
-### Umber
-
-Warm terracotta on cream. The reference theme — the system was built around it. See `themes/umber-light.css` and `themes/umber-dark.css`.
-
-### Solarized
-
-The classic Solarized palette. Cool blue accent on warm yellowed white (light) or deep teal (dark). See `themes/solarized-light.css` and `themes/solarized-dark.css`.
-
-### Corporate Blues
-
-Clean navy and sky blue on white. The sidebar uses dark navy chrome against a light content area — a proof-point for the chrome variable split. See `themes/corporate-blues-light.css` and `themes/corporate-blues-dark.css`.
