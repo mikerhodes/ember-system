@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fieldwork — Design System Demo</title>
+  <style>
+    :root {
+      --accent:            #c4622d;
+      --accent-dark:       #5a4030;
+      --page-bg:           #f7f3ee;
+      --container-bg:      #ede8e0;
+      --focus-container-bg:#e8ddd4;
+      --surface-bg:        #fdfcfa;
+      --text-muted:        #a89888;
+      --text-active:       #3a2e24;
+      --text-secondary:    #8a7060;
+      --ui-chrome:         #b8a898;
+      --error:             #c0392b;
+      --surface-border:    #ccc4b8;
+      --surface-bottom:    #b8b0a4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--page-bg);
+      color: var(--text-active);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 200px;
+      min-width: 200px;
+      background: var(--container-bg);
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0 16px;
+      border-right: 1px solid var(--surface-border);
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-appname {
+      font-family: monospace;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      padding: 0 16px 20px;
+      letter-spacing: -0.01em;
+    }
+
+    .sidebar-section-label {
+      padding: 0 16px 6px;
+      margin-top: 16px;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      flex: 1;
+    }
+
+    .sidebar-nav li a {
+      display: block;
+      padding: 6px 16px;
+      color: var(--text-active);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: color 0.1s;
+    }
+
+    .sidebar-nav li a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--focus-container-bg);
+      font-weight: 500;
+    }
+
+    .sidebar-divider {
+      border: none;
+      border-top: 1px solid var(--surface-border);
+      margin: 12px 16px;
+    }
+
+    .sidebar-shortcut-hint {
+      padding: 12px 16px 0;
+      font-size: 0.72rem;
+      color: var(--ui-chrome);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .main {
+      margin-left: 200px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .page-header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: baseline;
+      padding: 20px 28px 18px;
+      border-bottom: 1px solid var(--surface-border);
+      background: var(--page-bg);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .page-header-left,
+    .status-text {
+      font-size: 0.75rem;
+      color: var(--ui-chrome);
+    }
+
+    .page-header-left a {
+      color: var(--ui-chrome);
+      text-decoration: none;
+    }
+
+    .page-header-left a:hover {
+      color: var(--accent);
+    }
+
+    .page-header-center h1 {
+      font-family: monospace;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .page-header-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .content {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .section-label,
+    .panel-title,
+    .sidebar-section-label,
+    .type-block .section-header-demo {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+    }
+
+    .section-label { margin-bottom: 12px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface-bg);
+      border: 1px solid var(--surface-border);
+      border-bottom: 3px solid var(--surface-bottom);
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-family: inherit;
+      font-size: 0.8125rem;
+      color: var(--accent-dark);
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 500;
+      line-height: 1.4;
+      user-select: none;
+    }
+
+    .btn:hover { color: var(--accent); }
+
+    .btn:active,
+    .btn.pressed {
+      border-bottom-width: 1px;
+      transform: translateY(2px);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent-dark);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #a84f22;
+      border-color: #3a2010;
+      color: #fff;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .panel {
+      background: var(--container-bg);
+      border-radius: 4px;
+      padding: 12px;
+    }
+
+    .panel.active { background: var(--focus-container-bg); }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .panel.active .panel-title { color: var(--accent); }
+
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 9px;
+      background: #d8d0c8;
+      color: var(--text-muted);
+    }
+
+    .panel.active .badge {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .panel-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card {
+      background: var(--surface-bg);
+      border: 1px solid var(--surface-border);
+      border-bottom: 3px solid var(--surface-bottom);
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .card-title { line-height: 1.4; }
+
+    .card-note {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      margin-left: 22px;
+    }
+
+    .detail-card {
+      background: var(--surface-bg);
+      border: 1px solid var(--surface-border);
+      border-bottom: 3px solid var(--surface-bottom);
+      border-radius: 6px;
+      padding: 20px 24px;
+      max-width: 640px;
+    }
+
+    .detail-card h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .detail-card p {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .detail-card a,
+    .type-block a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .detail-card a:hover,
+    .type-block a:hover {
+      text-decoration: underline;
+    }
+
+    .detail-secondary {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--surface-border);
+    }
+
+    .error-message {
+      font-size: 0.8125rem;
+      color: var(--error);
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border: 1.5px solid var(--surface-border);
+      border-bottom: 2px solid var(--surface-bottom);
+      border-radius: 3px;
+      background: var(--surface-bg);
+      cursor: pointer;
+      position: relative;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    input[type="checkbox"]:checked {
+      background: var(--accent);
+      border-color: var(--accent-dark);
+    }
+
+    input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 0;
+      width: 5px;
+      height: 9px;
+      border: 2px solid #fff;
+      border-top: none;
+      border-left: none;
+      transform: rotate(40deg);
+    }
+
+    .checkbox-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox-item.checked-item {
+      text-decoration: line-through;
+      color: var(--ui-chrome);
+    }
+
+    kbd {
+      background: var(--surface-bg);
+      border: 1px solid var(--surface-border);
+      border-radius: 5px;
+      box-shadow: 0 2px 0 var(--surface-border);
+      padding: 2px 8px;
+      font-family: monospace;
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+
+    .shortcut-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .shortcut-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    .type-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .type-block h1 {
+      font-family: monospace;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .type-block .body-text { line-height: 1.6; }
+
+    .type-block .secondary-text {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .type-block .error-text {
+      font-size: 0.8125rem;
+      color: var(--error);
+    }
+
+    .form-card {
+      background: var(--surface-bg);
+      border: 1px solid var(--surface-border);
+      border-bottom: 3px solid var(--surface-bottom);
+      border-radius: 6px;
+      padding: 20px 24px;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .form-input,
+    .form-textarea {
+      background: var(--page-bg);
+      border: 1px solid var(--surface-border);
+      border-radius: 5px;
+      padding: 7px 10px;
+      font-family: inherit;
+      font-size: 0.8125rem;
+      color: var(--text-active);
+      width: 100%;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      border-bottom-color: var(--accent-dark);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.5;
+    }
+
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-appname">fieldwork</div>
+
+    <div class="sidebar-section-label">Projects</div>
+    <ul class="sidebar-nav">
+      <li><a href="#" class="active">Atlas Platform</a></li>
+      <li><a href="#">Data Pipeline</a></li>
+      <li><a href="#">Mobile Client</a></li>
+      <li><a href="#">Infra Hardening</a></li>
+    </ul>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-section-label">Team</div>
+    <ul class="sidebar-nav">
+      <li><a href="#">Assignments</a></li>
+      <li><a href="#">Reviews</a></li>
+      <li><a href="#">Reports</a></li>
+    </ul>
+
+    <div class="sidebar-shortcut-hint">
+      <kbd>?</kbd> shortcuts
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <header class="page-header">
+      <div class="page-header-left">
+        <a href="#">Projects</a> / Atlas Platform
+      </div>
+      <div class="page-header-center">
+        <h1>Atlas Platform</h1>
+      </div>
+      <div class="page-header-right">
+        <span class="status-text">14 open · 3 blocked</span>
+        <button class="btn btn-primary">+ Add task</button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <section>
+        <div class="section-label">Board</div>
+        <div class="board">
+
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Backlog</span>
+              <span class="badge">5</span>
+            </div>
+            <div class="panel-cards">
+              <div class="card">
+                <div class="card-header">
+                  <input type="checkbox"> <span class="card-title">Audit existing API surface for deprecations</span>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <input type="checkbox"> <span class="card-title">Investigate rate-limit edge cases in the auth layer</span>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <input type="checkbox"> <span class="card-title">Write ADR for new job queue design</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel active">
+            <div class="panel-header">
+              <span class="panel-title">In Progress</span>
+              <span class="badge">3</span>
+            </div>
+            <div class="panel-cards">
+              <div class="card">
+                <div class="card-header">
+                  <input type="checkbox"> <span class="card-title">Migrate session store to Redis cluster</span>
+                </div>
+                <div class="card-note">Blocked on infra ticket INF-204 — awaiting Redis 7 rollout</div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <input type="checkbox"> <span class="card-title">Refactor webhook dispatcher for retry logic</span>
+                </div>
+                <div class="card-note">PR open · waiting on review from @dana</div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <input type="checkbox"> <span class="card-title">Add structured logging to worker pool</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Done</span>
+              <span class="badge">6</span>
+            </div>
+            <div class="panel-cards">
+              <div class="card">
+                <div class="card-header">
+                  <input type="checkbox" checked> <span class="card-title">Replace polling with SSE for live updates</span>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <input type="checkbox" checked> <span class="card-title">Upgrade Go runtime to 1.23</span>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <input type="checkbox" checked> <span class="card-title">Set up canary deployment pipeline</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Task detail</div>
+        <div class="detail-card">
+          <h2>Migrate session store to Redis cluster</h2>
+          <p>
+            The current session store uses a single Postgres table which is becoming a
+            bottleneck under load. Moving to a dedicated Redis cluster will reduce p99
+            latency on authenticated endpoints. See the <a href="#">architecture proposal</a>
+            and <a href="#">load test results</a> for full context.
+          </p>
+          <p>
+            Work should follow the plan in <a href="#">INF-204</a>. Once Redis is provisioned,
+            the migration can proceed without downtime using the dual-write strategy.
+          </p>
+          <div class="detail-secondary">
+            Assigned to <strong>Mike Rhodes</strong> · Created 8 Mar 2026 · Sprint 14 · Priority: High
+          </div>
+        </div>
+        <div class="error-message">
+          ✕ &nbsp;Cannot update task: dependency INF-204 is not yet resolved.
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Buttons</div>
+        <div class="btn-row">
+          <button class="btn btn-primary">+ Add task</button>
+          <button class="btn">Edit</button>
+          <button class="btn">Move to Done</button>
+          <button class="btn">Assign to me</button>
+          <button class="btn pressed">Mark blocked</button>
+          <button class="btn">Archive sprint</button>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Keyboard shortcuts</div>
+        <div class="shortcut-row">
+          <div class="shortcut-item"><kbd>N</kbd> New task</div>
+          <div class="shortcut-item"><kbd>⌘ K</kbd> Command palette</div>
+          <div class="shortcut-item"><kbd>E</kbd> Edit selected</div>
+          <div class="shortcut-item"><kbd>D</kbd> Mark done</div>
+          <div class="shortcut-item"><kbd>B</kbd> Mark blocked</div>
+          <div class="shortcut-item"><kbd>?</kbd> Show all shortcuts</div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">Checklist</div>
+        <div class="checkbox-list">
+          <label class="checkbox-item">
+            <input type="checkbox"> Update environment variables in prod config
+          </label>
+          <label class="checkbox-item checked-item">
+            <input type="checkbox" checked> Confirm Redis instance type with infra team
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox"> Run dual-write test against staging for 24 h
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox"> Schedule cutover window with on-call rotation
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox"> Update runbook with new connection string format
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label">New task form</div>
+        <form class="form-card" onsubmit="return false;">
+          <div class="form-field">
+            <label class="form-label" for="task-title">Title</label>
+            <input class="form-input" id="task-title" type="text" placeholder="Describe the task…">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="task-comment">Comment</label>
+            <textarea class="form-textarea" id="task-comment" placeholder="Add context, links, or notes…"></textarea>
+          </div>
+          <div class="form-footer">
+            <label class="checkbox-item">
+              <input type="checkbox"> Mark as high priority
+            </label>
+            <button class="btn btn-primary" type="submit">Add task</button>
+          </div>
+        </form>
+      </section>
+
+      <section>
+        <div class="section-label">Text styles</div>
+        <div class="type-block">
+          <h1>fieldwork</h1>
+          <div class="section-header-demo">Active Sprint — Week 11</div>
+          <div class="body-text">
+            The Atlas Platform team is working through Sprint 14. Three tasks are currently
+            in progress; one is blocked pending an infrastructure dependency. All in-flight
+            work is expected to resolve by end of week.
+          </div>
+          <div class="secondary-text">Last synced 2 minutes ago · Viewing as Mike Rhodes</div>
+          <div><a href="#">View full sprint report →</a></div>
+          <div class="error-text">✕ &nbsp;Failed to load task history: connection timeout (504)</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+</body>
+</html>
