@@ -1,0 +1,31 @@
+/* Dark themes invert three variable relationships vs. light themes:
+   --surface-bg is LIGHTER than --container-bg (cards lift up, not sink)
+   --surface-bottom is LIGHTER than --surface-bg (highlight edge, not shadow)
+   --accent-dark is LIGHTER/more vivid (button borders must stay visible) */
+:root {
+  --accent:            #5aabdc;
+  --accent-hover:      #4090c0;
+  --accent-dark:       #7ec8f0;
+  --accent-dark-hover: #5aabdc;
+  --page-bg:           #1e2a35;
+  --container-bg:      #243040;
+  --focus-container-bg:#2a384c;
+  --surface-bg:        #2c3a48;
+  --text-active:       #d8e8f4;
+  --text-secondary:    #88aac8;
+  --text-muted:        #4a6880;
+  --ui-chrome:         #5a7a96;
+  --error:             #e05040;
+  --warning:           #e0aa30;
+  --success:           #6ab87a;
+  --info:              #5aabdc;
+  --surface-border:    #3a5068;
+  --surface-bottom:    #4a6480;
+  --drag-outline:      #5aabdc;
+  --sidebar-bg:        #162030;
+  --sidebar-text:      #d8e8f4;
+  --sidebar-border:    #1e2a3a;
+  --header-bg:         #1e2a35;
+  --header-text:       #d8e8f4;
+  --header-border:     #2a3848;
+}

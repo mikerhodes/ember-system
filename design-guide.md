@@ -1,6 +1,6 @@
 # Design Guide
 
-This guide defines the visual design system. It is theme-agnostic: the component patterns, variable roles, and layout rules apply to any theme. Apply a theme by dropping in a `:root` block — the themes are listed at the end of this guide.
+This guide defines the visual design system. It is theme-agnostic: the component patterns, variable roles, and layout rules apply to any theme. Apply a theme by linking a theme file from `themes/` — the available themes are listed at the end of this guide.
 
 ---
 
@@ -17,7 +17,7 @@ Avoid:
 
 ## Variables
 
-All components use CSS custom properties. Set these on `:root` (or a `[data-theme]` attribute) to apply a theme. Each variable has a defined role — never substitute one for another.
+All components use CSS custom properties. Each theme file sets these on `:root`. Each variable has a defined role — never substitute one for another.
 
 ### Accent
 
@@ -57,21 +57,36 @@ In dark themes, `--surface-bg`, `--surface-bottom`, and `--accent-dark` invert t
 | Variable           | Role                                                                                                     |
 |--------------------|----------------------------------------------------------------------------------------------------------|
 | `--surface-border` | Top and side borders on raised elements (cards, buttons, `<kbd>`)                                        |
-| `--surface-bottom` | Thick bottom border on raised elements — darker than `--surface-bg` in light themes to create a shadow edge; can be *lighter* than `--surface-bg` in dark themes to create a highlight edge instead |
+| `--surface-bottom` | Thick bottom border on raised elements — darker than `--surface-bg` in light themes to create a shadow edge; *lighter* than `--surface-bg` in dark themes to create a highlight edge instead |
 | `--drag-outline`   | Drop-target outline — typically matches `--accent`                                                       |
+
+When building a dark theme, three variable relationships invert vs. a light theme:
+
+| Variable | Light theme | Dark theme | Why |
+|---|---|---|---|
+| `--surface-bg` vs `--container-bg` | surface lighter | surface lighter | Cards must lift above the panel in both modes |
+| `--surface-bottom` vs `--surface-bg` | darker (shadow edge) | lighter (highlight edge) | In dark mode a darker bottom creates a harsh hole; a lighter one glows |
+| `--accent-dark` | darker than `--accent` | lighter than `--accent` | Button borders must be visible; darkening accent makes them disappear |
 
 ### Chrome (sidebar and header)
 
-The chrome variables let the sidebar and header differ visually from the content area. In a theme with a dark sidebar on a light background (like Blues), only these variables change — the content area stays light.
+The chrome variables let the sidebar and header differ visually from the content area. In a theme with a dark sidebar on a light background (like Corporate Blues), only these variables change — no component CSS differs.
 
-| Variable          | Role                                      |
-|-------------------|-------------------------------------------|
-| `--sidebar-bg`    | Sidebar background                        |
-| `--sidebar-text`  | Sidebar text and nav link colour          |
-| `--sidebar-border`| Sidebar right border and dividers         |
-| `--header-bg`     | Page header background                    |
-| `--header-text`   | Page header text colour                   |
-| `--header-border` | Page header bottom border                 |
+| Variable           | Role                                      |
+|--------------------|-------------------------------------------|
+| `--sidebar-bg`     | Sidebar background                        |
+| `--sidebar-text`   | Sidebar text and nav link colour          |
+| `--sidebar-border` | Sidebar right border and dividers         |
+| `--header-bg`      | Page header background                    |
+| `--header-text`    | Page header text colour                   |
+| `--header-border`  | Page header bottom border                 |
+
+Example — same component CSS, different chrome variables:
+
+| Variable group | Umber (unified chrome) | Corporate Blues (split chrome) |
+|---|---|---|
+| `--sidebar-bg` | `#ede8e0` (matches container) | `#3a5878` (dark navy) |
+| `--header-bg` | `#f7f3ee` (matches page) | `#ffffff` (white) |
 
 ---
 
@@ -510,174 +525,33 @@ Do not use a background tint on callouts. The left border alone carries the sema
 
 ## Themes
 
-Apply a theme by setting the variables below on `:root` or a `[data-theme]` attribute on `<html>`. Switch themes at runtime with `document.documentElement.dataset.theme = 'blues'`.
+Link `ember.css` and one theme file. For automatic light/dark switching, use two link tags with `media` queries:
 
-### Umber (default)
-
-Warm terracotta on cream. The reference theme — the system was built around it.
-
-```css
-:root {
-  --accent:             #c4622d;
-  --accent-hover:       #a84f22;
-  --accent-dark:        #5a4030;
-  --accent-dark-hover:  #3a2010;
-  --page-bg:            #f7f3ee;
-  --container-bg:       #ede8e0;
-  --focus-container-bg: #e8ddd4;
-  --surface-bg:         #fdfcfa;
-  --text-active:        #3a2e24;
-  --text-secondary:     #8a7060;
-  --text-muted:         #a89888;
-  --ui-chrome:          #b8a898;
-  --error:              #c0392b;
-  --warning:            #c48a1a;
-  --success:            #6a9a5a;
-  --info:               #2980b9;
-  --surface-border:     #ccc4b8;
-  --surface-bottom:     #b8b0a4;
-  --drag-outline:       #c4622d;
-  --sidebar-bg:         #ede8e0;
-  --sidebar-text:       #3a2e24;
-  --sidebar-border:     #ccc4b8;
-  --header-bg:          #f7f3ee;
-  --header-text:        #3a2e24;
-  --header-border:      #ccc4b8;
-}
+```html
+<link rel="stylesheet" href="ember.css">
+<link rel="stylesheet" href="themes/umber-light.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="themes/umber-dark.css"  media="(prefers-color-scheme: dark)">
 ```
 
-### Umber Dark
+Available themes:
 
-The same warm rust accent against deep brown backgrounds. Cards lift lighter; borders glow rather than shadow.
+| File                         | Description                                              |
+|------------------------------|----------------------------------------------------------|
+| `umber-light.css`            | Warm terracotta on cream. The reference theme.           |
+| `umber-dark.css`             | Dark brown ground with terracotta accents.               |
+| `solarized-light.css`        | Solarized palette, light variant.                        |
+| `solarized-dark.css`         | Solarized palette, dark variant.                         |
+| `corporate-blues-light.css`  | Navy and sky blue on white; dark sidebar chrome.         |
+| `corporate-blues-dark.css`   | Dark navy ground with steel blue accents; dark sidebar.  |
 
-```css
-[data-theme="umber-dark"] {
-  --accent:             #c4622d;
-  --accent-hover:       #a84f22;
-  --accent-dark:        #e07840;
-  --accent-dark-hover:  #c46030;
-  --page-bg:            #1e1810;
-  --container-bg:       #261f16;
-  --focus-container-bg: #2e261a;
-  --surface-bg:         #32281c;
-  --text-active:        #e8d8c0;
-  --text-secondary:     #a89070;
-  --text-muted:         #786050;
-  --ui-chrome:          #786050;
-  --error:              #e05040;
-  --warning:            #e0aa30;
-  --success:            #8fc07a;
-  --info:               #5aabdc;
-  --surface-border:     #4a3c2c;
-  --surface-bottom:     #5a4a36;
-  --drag-outline:       #c4622d;
-  --sidebar-bg:         #1e1810;
-  --sidebar-text:       #e8d8c0;
-  --sidebar-border:     #2e261a;
-  --header-bg:          #1e1810;
-  --header-text:        #e8d8c0;
-  --header-border:      #2e261a;
-}
-```
+### Umber
+
+Warm terracotta on cream. The reference theme — the system was built around it. See `themes/umber-light.css` and `themes/umber-dark.css`.
 
 ### Solarized
 
-The classic Solarized light palette. A cool blue accent on warm yellowed white.
-
-```css
-[data-theme="solarized"] {
-  --accent:             #268bd2;
-  --accent-hover:       #1a6fa8;
-  --accent-dark:        #073642;
-  --accent-dark-hover:  #052530;
-  --page-bg:            #fdf6e3;
-  --container-bg:       #eee8d5;
-  --focus-container-bg: #e5ddc8;
-  --surface-bg:         #fffdf7;
-  --text-active:        #657b83;
-  --text-secondary:     #586e75;
-  --text-muted:         #93a1a1;
-  --ui-chrome:          #93a1a1;
-  --error:              #dc322f;
-  --warning:            #b58900;
-  --success:            #859900;
-  --info:               #268bd2;
-  --surface-border:     #d5ceb8;
-  --surface-bottom:     #b5ae98;
-  --drag-outline:       #268bd2;
-  --sidebar-bg:         #eee8d5;
-  --sidebar-text:       #657b83;
-  --sidebar-border:     #d5ceb8;
-  --header-bg:          #fdf6e3;
-  --header-text:        #657b83;
-  --header-border:      #d5ceb8;
-}
-```
-
-### Solarized Dark
-
-The dark counterpart to Solarized. Deep teal backgrounds, muted blue-grey text, same blue accent.
-
-```css
-[data-theme="solarized-dark"] {
-  --accent:             #268bd2;
-  --accent-hover:       #1a6fa8;
-  --accent-dark:        #2aa198;
-  --accent-dark-hover:  #1d8077;
-  --page-bg:            #002b36;
-  --container-bg:       #073642;
-  --focus-container-bg: #0d3d4a;
-  --surface-bg:         #0d4454;
-  --text-active:        #839496;
-  --text-secondary:     #93a1a1;
-  --text-muted:         #586e75;
-  --ui-chrome:          #586e75;
-  --error:              #dc322f;
-  --warning:            #b58900;
-  --success:            #859900;
-  --info:               #268bd2;
-  --surface-border:     #1a5060;
-  --surface-bottom:     #1f5c6e;
-  --drag-outline:       #268bd2;
-  --sidebar-bg:         #002b36;
-  --sidebar-text:       #839496;
-  --sidebar-border:     #073642;
-  --header-bg:          #002b36;
-  --header-text:        #839496;
-  --header-border:      #073642;
-}
-```
+The classic Solarized palette. Cool blue accent on warm yellowed white (light) or deep teal (dark). See `themes/solarized-light.css` and `themes/solarized-dark.css`.
 
 ### Corporate Blues
 
-Clean navy and sky blue on white. The sidebar uses a dark navy chrome against the light content area.
-
-```css
-[data-theme="blues"] {
-  --accent:             #176bad;
-  --accent-hover:       #105a96;
-  --accent-dark:        #243959;
-  --accent-dark-hover:  #162540;
-  --page-bg:            #ffffff;
-  --container-bg:       #eaf0f7;
-  --focus-container-bg: #d6e4f0;
-  --surface-bg:         #ffffff;
-  --text-active:        #1a2330;
-  --text-secondary:     #3a5470;
-  --text-muted:         #7aaac8;
-  --ui-chrome:          #6ca8d2;
-  --error:              #c0392b;
-  --warning:            #b07a10;
-  --success:            #3a8a5a;
-  --info:               #176bad;
-  --surface-border:     #96b8d4;
-  --surface-bottom:     #5080a8;
-  --drag-outline:       #176bad;
-  --sidebar-bg:         #3a5878;
-  --sidebar-text:       #deeaf5;
-  --sidebar-border:     #2a4560;
-  --header-bg:          #ffffff;
-  --header-text:        #1a2330;
-  --header-border:      #96b8d4;
-}
-```
+Clean navy and sky blue on white. The sidebar uses dark navy chrome against a light content area — a proof-point for the chrome variable split. See `themes/corporate-blues-light.css` and `themes/corporate-blues-dark.css`.

@@ -1,0 +1,30 @@
+/* Corporate Blues: note how --sidebar-bg is dark navy while --header-bg
+   and --page-bg are white. The chrome variables allow the sidebar to
+   differ completely from the content area without touching any component CSS. */
+:root {
+  --accent:            #176bad;
+  --accent-hover:      #105a96;
+  --accent-dark:       #243959;
+  --accent-dark-hover: #162540;
+  --page-bg:           #ffffff;
+  --container-bg:      #eaf0f7;
+  --focus-container-bg:#d6e4f0;
+  --surface-bg:        #ffffff;
+  --text-active:       #1a2330;
+  --text-secondary:    #3a5470;
+  --text-muted:        #7aaac8;
+  --ui-chrome:         #6ca8d2;
+  --error:             #c0392b;
+  --warning:           #b07a10;
+  --success:           #3a8a5a;
+  --info:              #176bad;
+  --surface-border:    #96b8d4;
+  --surface-bottom:    #5080a8;
+  --drag-outline:      #176bad;
+  --sidebar-bg:        #3a5878;
+  --sidebar-text:      #deeaf5;
+  --sidebar-border:    #2a4560;
+  --header-bg:         #ffffff;
+  --header-text:       #1a2330;
+  --header-border:     #96b8d4;
+}

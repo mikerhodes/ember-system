@@ -1,0 +1,27 @@
+:root {
+  --accent:            #268bd2;
+  --accent-hover:      #1a6fa8;
+  --accent-dark:       #2aa198;
+  --accent-dark-hover: #1d8077;
+  --page-bg:           #002b36;
+  --container-bg:      #073642;
+  --focus-container-bg:#0d3d4a;
+  --surface-bg:        #0d4454;
+  --text-active:       #839496;
+  --text-secondary:    #93a1a1;
+  --text-muted:        #586e75;
+  --ui-chrome:         #586e75;
+  --error:             #dc322f;
+  --warning:           #b58900;
+  --success:           #859900;
+  --info:              #268bd2;
+  --surface-border:    #1a5060;
+  --surface-bottom:    #1f5c6e;
+  --drag-outline:      #268bd2;
+  --sidebar-bg:        #002b36;
+  --sidebar-text:      #839496;
+  --sidebar-border:    #073642;
+  --header-bg:         #002b36;
+  --header-text:       #839496;
+  --header-border:     #073642;
+}
