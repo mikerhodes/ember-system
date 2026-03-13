@@ -1,6 +1,14 @@
 # ember-system
 
-A Claude Code skill demonstrates one way to apply a consistent visual style to HTML tools you build with AI.
+A Claude Code skill demonstrates one way to apply a consistent visual style to HTML tools you build with AI. I am interested in how everyone can make their own tools with AI, and part of that is making those tools nice to use.
+
+Here's an example of how the skill can help update [a simple application][app]:
+
+| Before | After |
+|--------|-------|
+| ![Before applying ember-system](diff-before.png) | ![After applying ember-system](diff-after.png) |
+
+[app]: https://github.com/mikerhodes/tools/tree/main/001-browserdiff
 
 ## What it is
 
