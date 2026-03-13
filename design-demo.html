@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ember — Design System Demo</title>
   <style>
+
+    /* =====================================================================
+       EMBER DESIGN SYSTEM — copy everything in this block into your project
+       All colours must come from these variables. Never hardcode hex values
+       in component CSS.
+       ===================================================================== */
+
     :root {
       --accent:            #c4622d;
       --accent-hover:      #a84f22;
@@ -14,13 +21,18 @@
       --container-bg:      #ede8e0;
       --focus-container-bg:#e8ddd4;
       --surface-bg:        #fdfcfa;
-      --text-muted:        #a89888;
       --text-active:       #3a2e24;
       --text-secondary:    #8a7060;
+      --text-muted:        #a89888;
       --ui-chrome:         #b8a898;
       --error:             #c0392b;
       --surface-border:    #ccc4b8;
       --surface-bottom:    #b8b0a4;
+      --drag-outline:      #c4622d;
+      /* Chrome variables control sidebar and header independently.
+         In light themes they typically match --container-bg / --page-bg.
+         In themes like Corporate Blues the sidebar goes dark while the
+         content area stays light — only these variables change. */
       --sidebar-bg:        #ede8e0;
       --sidebar-text:      #3a2e24;
       --sidebar-border:    #ccc4b8;
@@ -28,6 +40,11 @@
       --header-text:       #3a2e24;
       --header-border:     #ccc4b8;
     }
+
+    /* Dark themes invert three variable relationships vs. light themes:
+       --surface-bg is LIGHTER than --container-bg (cards lift up, not sink)
+       --surface-bottom is LIGHTER than --surface-bg (highlight edge, not shadow)
+       --accent-dark is LIGHTER/more vivid (button borders must stay visible) */
 
     [data-theme="umber-dark"] {
       --accent:            #c4622d;
@@ -45,6 +62,7 @@
       --error:             #e05040;
       --surface-border:    #4a3c2c;
       --surface-bottom:    #5a4a36;
+      --drag-outline:      #c4622d;
       --sidebar-bg:        #1e1810;
       --sidebar-text:      #e8d8c0;
       --sidebar-border:    #2e261a;
@@ -62,13 +80,14 @@
       --container-bg:      #eee8d5;
       --focus-container-bg:#e5ddc8;
       --surface-bg:        #fffdf7;
-      --text-muted:        #93a1a1;
       --text-active:       #657b83;
       --text-secondary:    #586e75;
+      --text-muted:        #93a1a1;
       --ui-chrome:         #93a1a1;
       --error:             #dc322f;
       --surface-border:    #d5ceb8;
       --surface-bottom:    #b5ae98;
+      --drag-outline:      #268bd2;
       --sidebar-bg:        #eee8d5;
       --sidebar-text:      #657b83;
       --sidebar-border:    #d5ceb8;
@@ -93,6 +112,7 @@
       --error:             #dc322f;
       --surface-border:    #1a5060;
       --surface-bottom:    #1f5c6e;
+      --drag-outline:      #268bd2;
       --sidebar-bg:        #002b36;
       --sidebar-text:      #839496;
       --sidebar-border:    #073642;
@@ -101,6 +121,9 @@
       --header-border:     #073642;
     }
 
+    /* Corporate Blues: note how --sidebar-bg is dark navy while --header-bg
+       and --page-bg are white. The chrome variables allow the sidebar to
+       differ completely from the content area without touching any component CSS. */
     [data-theme="blues"] {
       --accent:            #176bad;
       --accent-hover:      #105a96;
@@ -110,13 +133,14 @@
       --container-bg:      #eaf0f7;
       --focus-container-bg:#d6e4f0;
       --surface-bg:        #ffffff;
-      --text-muted:        #7aaac8;
       --text-active:       #1a2330;
       --text-secondary:    #3a5470;
+      --text-muted:        #7aaac8;
       --ui-chrome:         #6ca8d2;
       --error:             #c0392b;
       --surface-border:    #96b8d4;
       --surface-bottom:    #5080a8;
+      --drag-outline:      #176bad;
       --sidebar-bg:        #3a5878;
       --sidebar-text:      #deeaf5;
       --sidebar-border:    #2a4560;
@@ -124,6 +148,25 @@
       --header-text:       #1a2330;
       --header-border:     #96b8d4;
     }
+
+    /* Raised surface — the core pattern.
+       Use border-bottom: 3px solid var(--surface-bottom) for depth.
+       Never use box-shadow as the primary depth technique. */
+    .raised {
+      background: var(--surface-bg);
+      border: 1px solid var(--surface-border);
+      border-bottom: 3px solid var(--surface-bottom);
+      border-radius: 6px;
+    }
+
+    /* =====================================================================
+       END EMBER DESIGN SYSTEM
+       ===================================================================== */
+
+    /* =====================================================================
+       COMPONENT CSS — canonical patterns for common components.
+       Copy what you need; class names are suggestions not requirements.
+       ===================================================================== */
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -137,6 +180,10 @@
       min-height: 100vh;
     }
 
+    /* --- Sidebar --- */
+
+    /* Uses --sidebar-* variables so it can differ from the content area.
+       Always set color explicitly on <a> tags — they don't inherit from body. */
     .sidebar {
       width: 200px;
       min-width: 200px;
@@ -161,7 +208,15 @@
       letter-spacing: -0.01em;
     }
 
+    /* Section labels within the sidebar use opacity rather than a separate
+       variable — keeps the label visually subordinate on any background colour. */
     .sidebar-section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--sidebar-text);
+      opacity: 0.5;
       padding: 0 16px 6px;
       margin-top: 16px;
     }
@@ -193,6 +248,8 @@
       margin: 12px 16px;
     }
 
+    /* Shortcut hint uses opacity rather than --ui-chrome because it sits on
+       the sidebar background which may be dark or light depending on theme. */
     .sidebar-shortcut-hint {
       padding: 12px 16px 0;
       font-size: 0.72rem;
@@ -203,14 +260,10 @@
       gap: 6px;
     }
 
-    .main {
-      margin-left: 200px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+    /* --- Page header --- */
 
+    /* Uses --header-* variables. Grid layout with equal outer columns keeps
+       the centre element truly centred regardless of content width on either side. */
     .page-header {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
@@ -236,9 +289,7 @@
       opacity: 0.7;
     }
 
-    .page-header-left a:hover {
-      opacity: 1;
-    }
+    .page-header-left a:hover { opacity: 1; }
 
     .page-header-center h1 {
       font-family: monospace;
@@ -256,12 +307,7 @@
       gap: 12px;
     }
 
-    .content {
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 36px;
-    }
+    /* --- Section labels --- */
 
     .section-label,
     .panel-title,
@@ -273,17 +319,11 @@
       color: var(--text-secondary);
     }
 
-    .sidebar-section-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--sidebar-text);
-      opacity: 0.5;
-    }
-
     .section-label { margin-bottom: 12px; }
 
+    /* --- Buttons ---
+       Raised with thick bottom border — feel like physical keys.
+       Never use box-shadow for depth here. */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -305,6 +345,7 @@
 
     .btn:hover { color: var(--accent); }
 
+    /* Pressed state: collapse bottom border and shift down to simulate key travel. */
     .btn:active,
     .btn.pressed {
       border-bottom-width: 1px;
@@ -314,28 +355,20 @@
     .btn-primary {
       background: var(--accent);
       border-color: var(--accent-dark);
+      border-bottom-color: var(--accent-dark);
       color: #fff;
     }
 
     .btn-primary:hover {
       background: var(--accent-hover);
       border-color: var(--accent-dark-hover);
+      border-bottom-color: var(--accent-dark-hover);
       color: #fff;
     }
 
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .board {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
+    /* --- Panels ---
+       Flat trays — background colour only, no border. Panels hold cards;
+       they should not compete with the raised elements inside them. */
     .panel {
       background: var(--container-bg);
       border-radius: 4px;
@@ -353,12 +386,14 @@
 
     .panel.active .panel-title { color: var(--accent); }
 
+    /* Badge: inactive uses --surface-border so it adapts to any theme.
+       Active (inside an active panel) uses the accent. */
     .badge {
       font-size: 0.65rem;
       font-weight: 700;
       padding: 1px 6px;
       border-radius: 9px;
-      background: #d8d0c8;
+      background: var(--surface-border);
       color: var(--text-muted);
     }
 
@@ -373,6 +408,9 @@
       gap: 8px;
     }
 
+    /* --- Cards ---
+       Raised surface treatment. --surface-bg is always lighter than
+       --container-bg (even in dark themes) so cards lift off the panel. */
     .card {
       background: var(--surface-bg);
       border: 1px solid var(--surface-border);
@@ -389,6 +427,7 @@
 
     .card-title { line-height: 1.4; }
 
+    /* Card note: secondary text aligned with the title (checkbox width + gap). */
     .card-note {
       font-size: 0.75rem;
       color: var(--text-secondary);
@@ -396,6 +435,7 @@
       margin-left: 26px;
     }
 
+    /* --- Detail card --- */
     .detail-card {
       background: var(--surface-bg);
       border: 1px solid var(--surface-border);
@@ -423,9 +463,7 @@
     }
 
     .detail-card a:hover,
-    .type-block a:hover {
-      text-decoration: underline;
-    }
+    .type-block a:hover { text-decoration: underline; }
 
     .detail-secondary {
       font-size: 0.75rem;
@@ -435,6 +473,9 @@
       border-top: 1px solid var(--surface-border);
     }
 
+    /* --- Errors ---
+       Appear inline adjacent to the element they relate to, not in a modal
+       or at the top of the page. */
     .error-message {
       font-size: 0.8125rem;
       color: var(--error);
@@ -444,6 +485,9 @@
       gap: 6px;
     }
 
+    /* --- Checkboxes ---
+       Fully custom so they match the surface style and use the accent.
+       The tick is drawn with a pseudo-element. */
     input[type="checkbox"] {
       appearance: none;
       -webkit-appearance: none;
@@ -462,6 +506,7 @@
     input[type="checkbox"]:checked {
       background: var(--accent);
       border-color: var(--accent-dark);
+      border-bottom-color: var(--accent-dark);
     }
 
     input[type="checkbox"]:checked::after {
@@ -489,11 +534,15 @@
       gap: 8px;
     }
 
+    /* Completed items: use --ui-chrome (quieter than --text-muted) with
+       strikethrough to signal done-and-dismissed. */
     .checkbox-item.checked-item {
       text-decoration: line-through;
       color: var(--ui-chrome);
     }
 
+    /* --- kbd ---
+       Same raised treatment as buttons and cards — physical keycap feel. */
     kbd {
       background: var(--surface-bg);
       border: 1px solid var(--surface-border);
@@ -517,9 +566,73 @@
       align-items: center;
       gap: 6px;
       font-size: 0.8125rem;
+      color: var(--ui-chrome);
+    }
+
+    /* --- Form inputs ---
+       FLAT — single border, no thick bottom edge. Inputs receive content;
+       they should feel recessed, not raised. Contrast with .btn alongside them. */
+    .form-card {
+      background: var(--surface-bg);
+      border: 1px solid var(--surface-border);
+      border-bottom: 3px solid var(--surface-bottom);
+      border-radius: 6px;
+      padding: 20px 24px;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    /* Form labels use the all-caps section header style. */
+    .form-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--text-secondary);
     }
 
+    /* Flat border only — no border-bottom thickness. */
+    .form-input,
+    .form-textarea {
+      background: var(--page-bg);
+      border: 1px solid var(--surface-border);
+      border-radius: 5px;
+      padding: 7px 10px;
+      font-family: inherit;
+      font-size: 0.8125rem;
+      color: var(--text-active);
+      width: 100%;
+    }
+
+    /* Focus: switch border to accent — no outline, no glow, no box-shadow. */
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      border-bottom-color: var(--accent-dark);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.5;
+    }
+
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* --- Type block (text style reference only) --- */
     .type-block {
       display: flex;
       flex-direction: column;
@@ -540,76 +653,69 @@
       color: var(--text-secondary);
     }
 
+    .type-block .muted-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .type-block .chrome-text {
+      font-size: 0.75rem;
+      color: var(--ui-chrome);
+    }
+
     .type-block .error-text {
       font-size: 0.8125rem;
       color: var(--error);
     }
 
-    .form-card {
-      background: var(--surface-bg);
-      border: 1px solid var(--surface-border);
-      border-bottom: 3px solid var(--surface-bottom);
-      border-radius: 6px;
-      padding: 20px 24px;
-      max-width: 480px;
+    /* =====================================================================
+       END COMPONENT CSS
+       ===================================================================== */
+
+    /* =====================================================================
+       DEMO SCAFFOLD — do not copy into production
+       ===================================================================== */
+
+    .btn-row {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .form-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-
-    .form-input,
-    .form-textarea {
-      background: var(--page-bg);
-      border: 1px solid var(--surface-border);
-      border-radius: 5px;
-      padding: 7px 10px;
-      font-family: inherit;
-      font-size: 0.8125rem;
-      color: var(--text-active);
-      width: 100%;
-    }
-
-    .form-input:focus,
-    .form-textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-      border-bottom-color: var(--accent-dark);
-    }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 80px;
-      line-height: 1.5;
-    }
-
-    .form-footer {
-      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       align-items: center;
-      justify-content: space-between;
     }
 
-    .demo-note {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      font-style: italic;
-      margin-bottom: 12px;
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
     }
+
+    .main {
+      margin-left: 200px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .content {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    /* =====================================================================
+       END DEMO SCAFFOLD
+       ===================================================================== */
+
   </style>
 </head>
 <body>
 
+  <!-- SIDEBAR
+       Uses --sidebar-bg / --sidebar-text / --sidebar-border.
+       Switch to Corporate Blues to see a dark sidebar on a light content area —
+       only the --sidebar-* and --header-* variables change; no component CSS differs. -->
   <aside class="sidebar">
     <div class="sidebar-appname">ember</div>
 
@@ -637,6 +743,11 @@
 
   <main class="main">
 
+    <!-- PAGE HEADER
+         Uses --header-bg / --header-text / --header-border.
+         Grid layout (1fr auto 1fr) keeps the centre title truly centred.
+         Theme switcher is a <select class="btn"> — a demo convenience;
+         real apps should use a custom trigger + dropdown for full style control. -->
     <header class="page-header">
       <div class="page-header-left">
         <a href="#">Projects</a> / Atlas Platform
@@ -659,9 +770,14 @@
 
     <div class="content">
 
+      <!-- PANELS AND CARDS
+           Panels are flat trays — background colour only, no border.
+           Cards inside panels are raised (border-bottom: 3px).
+           The active panel gets --focus-container-bg; its title takes --accent.
+           In dark themes --surface-bg is lighter than --container-bg so cards
+           lift up rather than sink in. -->
       <section>
         <div class="section-label">Panels and cards</div>
-        <div class="demo-note">Panels are flat trays — background colour only, no border. Cards inside them are raised with a thick bottom border. The active panel gets a deeper background and its title takes the accent colour.</div>
         <div class="board">
 
           <div class="panel">
@@ -741,9 +857,12 @@
         </div>
       </section>
 
+      <!-- DETAIL CARD WITH INLINE ERROR
+           A raised card used as a detail / read view.
+           Errors appear adjacent to the element they relate to — here inside
+           the card after the action fails, not in a modal or page-level banner. -->
       <section>
         <div class="section-label">Detail card with error</div>
-        <div class="demo-note">A raised card used as a detail view. Errors appear inline below the relevant element — not in a modal or at the top of the page.</div>
         <div class="detail-card">
           <h2>Migrate session store to Redis cluster</h2>
           <p>
@@ -759,15 +878,20 @@
           <div class="detail-secondary">
             Assigned to <strong>Mike Rhodes</strong> · Created 8 Mar 2026 · Sprint 14 · Priority: High
           </div>
-        </div>
-        <div class="error-message">
-          ✕ &nbsp;Cannot update task: dependency INF-204 is not yet resolved.
+          <!-- Error is placed inside the card, adjacent to the relevant action -->
+          <div class="error-message">
+            ✕ &nbsp;Cannot update task: dependency INF-204 is not yet resolved.
+          </div>
         </div>
       </section>
 
+      <!-- BUTTONS
+           All buttons are raised (border-bottom: 3px) — they feel like physical keys.
+           Primary uses --accent background. Secondary uses --surface-bg.
+           Pressed state collapses bottom border by 2px and shifts down 2px.
+           Never use box-shadow for depth on buttons. -->
       <section>
         <div class="section-label">Buttons</div>
-        <div class="demo-note">All buttons are raised with a thick bottom border — they should feel like physical keys. Primary button uses the accent colour. The pressed state collapses the bottom border and shifts down 2px.</div>
         <div class="btn-row">
           <button class="btn btn-primary">+ Add task</button>
           <button class="btn">Edit</button>
@@ -778,9 +902,12 @@
         </div>
       </section>
 
+      <!-- KEYBOARD SHORTCUTS
+           <kbd> uses the same raised treatment as buttons and cards.
+           Label text uses --ui-chrome — quieter than --text-secondary,
+           appropriate for chrome/hint content that isn't primary information. -->
       <section>
         <div class="section-label">Keyboard shortcuts</div>
-        <div class="demo-note">Use &lt;kbd&gt; for keyboard shortcuts. Same raised treatment as buttons and cards — they look like physical keycaps.</div>
         <div class="shortcut-row">
           <div class="shortcut-item"><kbd>N</kbd> New task</div>
           <div class="shortcut-item"><kbd>⌘ K</kbd> Command palette</div>
@@ -791,9 +918,13 @@
         </div>
       </section>
 
+      <!-- CHECKBOXES AND CHECKLIST
+           Custom checkboxes match the surface style (raised, uses --surface-bg).
+           Checked state fills with --accent.
+           Completed list items: struck through, coloured --ui-chrome
+           (quietest readable text — done-and-dismissed). -->
       <section>
         <div class="section-label">Checkboxes and checklist</div>
-        <div class="demo-note">Custom checkboxes match the surface style. Checked items use the accent fill. Completed list items are struck through in the muted chrome colour.</div>
         <div class="checkbox-list">
           <label class="checkbox-item">
             <input type="checkbox"> Update environment variables in prod config
@@ -813,9 +944,13 @@
         </div>
       </section>
 
+      <!-- FORM INPUTS
+           Inputs and textareas are FLAT — single border, no thick bottom edge.
+           They sit recessed against the surface; they receive content rather than
+           invite action. Compare to the raised submit button alongside them.
+           Focus state: border switches to --accent, no box-shadow or outline. -->
       <section>
         <div class="section-label">Form inputs</div>
-        <div class="demo-note">Inputs and textareas are flat — a single border, no thick bottom edge. They sit recessed against the surface. Only the submit button is raised. Focus switches the border to the accent colour.</div>
         <form class="form-card" onsubmit="return false;">
           <div class="form-field">
             <label class="form-label" for="task-title">Title</label>
@@ -834,9 +969,16 @@
         </form>
       </section>
 
+      <!-- TEXT STYLES
+           All type roles and when to use them.
+           --text-active: primary readable content
+           --text-secondary: notes, captions, section headers, form labels
+           --text-muted: de-emphasised — inactive items, placeholder-like content
+           --ui-chrome: quietest — timestamps, hints, shortcut labels
+           --accent: app title (monospace), links, active states
+           --error: error messages only -->
       <section>
         <div class="section-label">Text styles</div>
-        <div class="demo-note">App title in monospace accent. Section headers all-caps in secondary colour. Body text in text-active. Secondary/meta text smaller in text-secondary. UI chrome (timestamps, hints) in ui-chrome. Errors in the error colour.</div>
         <div class="type-block">
           <h1>ember</h1>
           <div class="section-header-demo">Active Sprint — Week 11</div>
@@ -846,6 +988,8 @@
             work is expected to resolve by end of week.
           </div>
           <div class="secondary-text">Last synced 2 minutes ago · Viewing as Mike Rhodes</div>
+          <div class="muted-text">3 archived items not shown</div>
+          <div class="chrome-text">Synced · Sprint 14 · v2.4.1</div>
           <div><a href="#">View full sprint report →</a></div>
           <div class="error-text">✕ &nbsp;Failed to load task history: connection timeout (504)</div>
         </div>
