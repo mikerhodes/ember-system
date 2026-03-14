@@ -418,12 +418,12 @@ input[type="checkbox"]:checked::after {
 
 ## Form Inputs
 
-Inputs and textareas sit recessed in the page — they receive content rather than invite action. Use a flat border (no thick bottom border) so they contrast with the raised buttons and cards around them.
+Inputs and textareas sit recessed against their background — they receive content rather than invite action. Use a flat border (no thick bottom border) so they contrast with the raised buttons around them. Forms sit directly on the page or panel background; do not wrap them in a card.
 
 ```css
 input[type="text"],
 textarea {
-  background: var(--page-bg);
+  background: var(--surface-bg);
   border: 1px solid var(--surface-border);
   border-radius: 5px;
   padding: 7px 10px;

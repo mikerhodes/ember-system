@@ -291,12 +291,11 @@
 
       <!-- FORM INPUTS
            Inputs and textareas are FLAT — single border, no thick bottom edge.
-           They sit recessed against the surface; they receive content rather than
-           invite action. Compare to the raised submit button alongside them.
+           Forms sit directly on the page or panel background, not inside a card.
            Focus state: border switches to --accent, no box-shadow or outline. -->
       <section>
         <div class="section-label">Form inputs</div>
-        <form class="form-card" onsubmit="return false;">
+        <form style="max-width:480px;display:flex;flex-direction:column;gap:14px;" onsubmit="return false;">
           <div class="form-field">
             <label class="form-label" for="task-title">Title</label>
             <input class="form-input" id="task-title" type="text" placeholder="Describe the task…">

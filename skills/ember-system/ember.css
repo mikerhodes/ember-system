@@ -450,18 +450,6 @@ kbd {
 /* --- Form inputs ---
    FLAT — single border, no thick bottom edge. Inputs receive content;
    they should feel recessed, not raised. Contrast with .btn alongside them. */
-.form-card {
-  background: var(--surface-bg);
-  border: 1px solid var(--surface-border);
-  border-bottom: 3px solid var(--surface-bottom);
-  border-radius: 6px;
-  padding: 20px 24px;
-  max-width: 480px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
 .form-field {
   display: flex;
   flex-direction: column;
@@ -480,7 +468,7 @@ kbd {
 /* Flat border only — no border-bottom thickness. */
 .form-input,
 .form-textarea {
-  background: var(--page-bg);
+  background: var(--surface-bg);
   border: 1px solid var(--surface-border);
   border-radius: 5px;
   padding: 7px 10px;
