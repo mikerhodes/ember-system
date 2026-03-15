@@ -536,3 +536,5 @@ Available themes:
 | `solarized-dark.css`         | Solarized palette, dark variant.                         |
 | `corporate-blues-light.css`  | Navy and sky blue on white; dark sidebar chrome.         |
 | `corporate-blues-dark.css`   | Dark navy ground with steel blue accents; dark sidebar.  |
+| `monochroma-light.css`       | Pure greyscale on light grey; chrome recedes for media.  |
+| `monochroma-dark.css`        | Pure greyscale on deep charcoal; chrome recedes for media.|

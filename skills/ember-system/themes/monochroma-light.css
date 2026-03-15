@@ -1,0 +1,31 @@
+/* Monochroma Light: pure greyscale theme for media-centric applications.
+   Chrome fades into the background so images and content take centre stage.
+   Accent is a mid-grey with a cool hint — enough for interactive affordance
+   without competing with media content. */
+:root {
+  --accent:            #666666;
+  --accent-hover:      #4d4d4d;
+  --accent-dark:       #2e2e2e;
+  --accent-dark-hover: #1a1a1a;
+  --page-bg:           #f2f2f2;
+  --container-bg:      #e8e8e8;
+  --focus-container-bg:#dcdcdc;
+  --surface-bg:        #fafafa;
+  --text-active:       #1a1a1a;
+  --text-secondary:    #555555;
+  --text-muted:        #888888;
+  --ui-chrome:         #aaaaaa;
+  --error:             #b03030;
+  --warning:           #a06010;
+  --success:           #3a7a3a;
+  --info:              #2060a0;
+  --surface-border:    #cccccc;
+  --surface-bottom:    #b8b8b8;
+  --drag-outline:      #666666;
+  --sidebar-bg:        #e8e8e8;
+  --sidebar-text:      #1a1a1a;
+  --sidebar-border:    #cccccc;
+  --header-bg:         #f2f2f2;
+  --header-text:       #1a1a1a;
+  --header-border:     #cccccc;
+}

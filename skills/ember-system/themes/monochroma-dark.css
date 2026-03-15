@@ -1,0 +1,32 @@
+/* Monochroma Dark: pure greyscale dark theme for media-centric applications.
+   Deep charcoal backgrounds let images and content take centre stage.
+   Per dark theme invariants: --surface-bg is LIGHTER than --container-bg,
+   --surface-bottom is LIGHTER than --surface-bg (highlight edge),
+   --accent-dark is lighter/more vivid so button borders stay visible. */
+:root {
+  --accent:            #999999;
+  --accent-hover:      #bbbbbb;
+  --accent-dark:       #cccccc;
+  --accent-dark-hover: #e0e0e0;
+  --page-bg:           #141414;
+  --container-bg:      #1c1c1c;
+  --focus-container-bg:#242424;
+  --surface-bg:        #2a2a2a;
+  --text-active:       #e8e8e8;
+  --text-secondary:    #aaaaaa;
+  --text-muted:        #666666;
+  --ui-chrome:         #555555;
+  --error:             #d05050;
+  --warning:           #c08030;
+  --success:           #60a060;
+  --info:              #5090d0;
+  --surface-border:    #3c3c3c;
+  --surface-bottom:    #484848;
+  --drag-outline:      #999999;
+  --sidebar-bg:        #141414;
+  --sidebar-text:      #e8e8e8;
+  --sidebar-border:    #2a2a2a;
+  --header-bg:         #141414;
+  --header-text:       #e8e8e8;
+  --header-border:     #2a2a2a;
+}

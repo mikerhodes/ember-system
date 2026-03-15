@@ -41,8 +41,9 @@ You might of course like this style too, in which case, you can reuse my work!
 There are three colour schemes included:
 
 1. Umber - warm terracotta on cream.
-2. Solarized - based on the [solarized](https://ethanschoonover.com/solarized/) colour palette.
-3. Corporate Blues - a bolder blue-on-white them that feels a bit more ready for corporate use.
+1. Monochroma - blacks & greys; designed for apps that focus other content, like images or media.
+1. Corporate Blues - a bolder blue-on-white them that feels a bit more ready for corporate use.
+1. Solarized - based on the [solarized](https://ethanschoonover.com/solarized/) colour palette.
 
 Each has a light and dark version. The `SKILL.md` file shows the agent how to use these for auto-switching themes.
 
@@ -50,6 +51,9 @@ Even if you don't like the bundled colour schemes, they show enough that Claude 
 
 ![Umber theme](demo-umber.png)
 *Umber*
+
+![Monochroma theme](demo-monochroma.png)
+*Monochroma*
 
 ![Corporate Blues theme](demo-blues.png)
 *Corporate Blues*
