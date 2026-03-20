@@ -427,6 +427,7 @@ kbd {
   padding: 2px 8px;
   font-family: monospace;
   font-size: 0.75rem;
+  color: var(--text-active);
   white-space: nowrap;
 }
 
