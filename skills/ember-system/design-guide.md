@@ -516,6 +516,47 @@ Errors appear inline near the relevant UI (e.g. in the header status bar or insi
 
 ---
 
+## Prose
+
+For long-form text — documentation, help pages, detail views, READMEs rendered in the UI — wrap your HTML in `.prose`. It restores sensible spacing and sizing on plain semantic elements without touching backgrounds or borders, so it works on the bare page or inside a card or panel unchanged.
+
+```html
+<div class="prose">
+  <h2>Section heading</h2>
+  <p>Body text with a <a href="#">link</a> and <code>inline code</code>.</p>
+  <ul>
+    <li>List item</li>
+  </ul>
+  <pre><code>code block</code></pre>
+  <blockquote>A callout-style quote.</blockquote>
+</div>
+```
+
+### What `.prose` handles
+
+| Element | Treatment |
+|---|---|
+| `h1`–`h3` | Scaled weights in `--text-active`; `1.75em` top margin, none on first child |
+| `h4` | Small-caps style, `--text-secondary` — acts like a section label within prose |
+| `p` | `0.75em` top margin; `line-height: 1.7` for comfortable reading |
+| `a` | `--accent` colour, underline on hover |
+| `strong` / `em` | Bold / italic; inherit colour |
+| `ul` / `ol` | Left-padded with disc/decimal markers; `0.3em` gap between items |
+| `code` (inline) | Monospace, `--surface-bg` background, 1px border — keycap look without thick bottom |
+| `pre` + `code` | Flat recessed block (`--container-bg` background, 1px border) — same philosophy as form inputs |
+| `blockquote` | Left border (`--surface-border`) + italic text in `--text-secondary` — same pattern as callouts |
+| `hr` | 1px `--surface-border` top border; vertical breathing room |
+
+### Sizing
+
+`.prose` sets `font-size: 0.9375rem` (slightly larger than the UI default of `0.875rem`) and `max-width: 68ch`. The wider measure and looser line height distinguish reading text from dense UI data. Override either on the container if you need a tighter fit.
+
+### Embedding prose in components
+
+`.prose` controls only spacing and typography. The same class works without modification on the bare page background or inside a `.card`, `.detail-card`, or `.panel`. Do not add separate padding inside `.prose`; rely on the parent component's padding instead.
+
+---
+
 ## Themes
 
 Link `ember.css` and one theme file. For automatic light/dark switching, use two link tags with `media` queries:

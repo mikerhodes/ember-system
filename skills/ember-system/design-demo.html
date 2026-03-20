@@ -508,6 +508,139 @@
         </div>
       </section>
 
+      <!-- PROSE
+           .prose handles long-form text: docs, help pages, detail views.
+           Apply it to any container div wrapping semantic HTML.
+           The same .prose class works on the bare page background (left column)
+           or embedded inside a card (right column) — it controls spacing and
+           typography only, not background or border. -->
+      <section>
+        <div class="section-label">Prose</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+
+          <!-- Left: prose on the bare page background -->
+          <div class="prose">
+            <h2>Redis Migration — Architecture Notes</h2>
+            <p>
+              The current session store uses a <strong>single Postgres table</strong> that
+              has become a bottleneck under sustained load. Moving to a dedicated Redis
+              cluster reduces p99 latency on authenticated endpoints and removes the
+              read-amplification problem caused by repeated session lookups.
+            </p>
+            <p>
+              This work is tracked in <a href="#">INF-204</a> and is a hard prerequisite
+              for the horizontal scaling work planned in Sprint 15. The Postgres table will
+              be kept in place as a fallback for 72 hours post-cutover.
+            </p>
+            <h3>Migration strategy</h3>
+            <p>
+              Use a <em>dual-write approach</em> so the cutover is zero-downtime. During
+              the transition window both stores receive writes; reads come from Postgres
+              until the switchover flag is flipped.
+            </p>
+            <p>
+              The feature flag is <code>session.read_source</code> and defaults to
+              <code>postgres</code>. Flip it to <code>redis</code> once parity is
+              confirmed. Rollback is instant — flip the flag back.
+            </p>
+            <h4>Cutover steps</h4>
+            <ol>
+              <li>Provision Redis 7 cluster in staging and confirm connectivity</li>
+              <li>Deploy the dual-write middleware behind the feature flag</li>
+              <li>Run <code>scripts/session_verify.sh</code> to confirm write parity</li>
+              <li>Flip <code>session.read_source</code> to <code>redis</code> in prod</li>
+              <li>Monitor p99 on authenticated endpoints for 30 minutes</li>
+              <li>Remove the dual-write path in the following sprint</li>
+            </ol>
+            <blockquote>
+              Do not drop the Postgres session table until the 72-hour rollback window
+              has passed. Keep the dual-write path in place until then.
+            </blockquote>
+            <h3>Non-goals</h3>
+            <p>
+              This migration does not change session TTLs, token formats, or the
+              authentication flow. It is a storage backend swap only.
+            </p>
+            <h4>Related work</h4>
+            <ul>
+              <li>Horizontal scaling — Sprint 15, blocked on this</li>
+              <li>Session invalidation audit — separate ticket, not a dependency</li>
+            </ul>
+            <h3>Key config values</h3>
+            <pre><code>REDIS_ADDR=redis-cluster.internal:6379
+SESSION_TTL=86400
+DUAL_WRITE=true
+READ_SOURCE=postgres  # flip to redis at cutover</code></pre>
+            <hr>
+            <p style="font-size:0.8125rem;color:var(--text-secondary);">
+              Last updated 18 Mar 2026 · Owner: Mike Rhodes · Sprint 14
+            </p>
+          </div>
+
+          <!-- Right: same prose inside a card -->
+          <div class="card" style="padding:24px;">
+            <div class="prose">
+              <h2>Redis Migration — Architecture Notes</h2>
+              <p>
+                The current session store uses a <strong>single Postgres table</strong> that
+                has become a bottleneck under sustained load. Moving to a dedicated Redis
+                cluster reduces p99 latency on authenticated endpoints and removes the
+                read-amplification problem caused by repeated session lookups.
+              </p>
+              <p>
+                This work is tracked in <a href="#">INF-204</a> and is a hard prerequisite
+                for the horizontal scaling work planned in Sprint 15. The Postgres table will
+                be kept in place as a fallback for 72 hours post-cutover.
+              </p>
+              <h3>Migration strategy</h3>
+              <p>
+                Use a <em>dual-write approach</em> so the cutover is zero-downtime. During
+                the transition window both stores receive writes; reads come from Postgres
+                until the switchover flag is flipped.
+              </p>
+              <p>
+                The feature flag is <code>session.read_source</code> and defaults to
+                <code>postgres</code>. Flip it to <code>redis</code> once parity is
+                confirmed. Rollback is instant — flip the flag back.
+              </p>
+              <h4>Cutover steps</h4>
+              <ol>
+                <li>Provision Redis 7 cluster in staging and confirm connectivity</li>
+                <li>Deploy the dual-write middleware behind the feature flag</li>
+                <li>Run <code>scripts/session_verify.sh</code> to confirm write parity</li>
+                <li>Flip <code>session.read_source</code> to <code>redis</code> in prod</li>
+                <li>Monitor p99 on authenticated endpoints for 30 minutes</li>
+                <li>Remove the dual-write path in the following sprint</li>
+              </ol>
+              <blockquote>
+                Do not drop the Postgres session table until the 72-hour rollback window
+                has passed. Keep the dual-write path in place until then.
+              </blockquote>
+              <h3>Non-goals</h3>
+              <p>
+                This migration does not change session TTLs, token formats, or the
+                authentication flow. It is a storage backend swap only.
+              </p>
+              <h4>Related work</h4>
+              <ul>
+                <li>Horizontal scaling — Sprint 15, blocked on this</li>
+                <li>Session invalidation audit — separate ticket, not a dependency</li>
+              </ul>
+              <h3>Key config values</h3>
+              <pre><code>REDIS_ADDR=redis-cluster.internal:6379
+SESSION_TTL=86400
+DUAL_WRITE=true
+READ_SOURCE=postgres  # flip to redis at cutover</code></pre>
+              <hr>
+              <p style="font-size:0.8125rem;color:var(--text-secondary);">
+                Last updated 18 Mar 2026 · Owner: Mike Rhodes · Sprint 14
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
     </div>
   </main>
 

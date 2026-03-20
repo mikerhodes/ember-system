@@ -708,6 +708,109 @@ kbd {
   border-radius: 5px;
 }
 
+/* --- Prose ---
+   For long-form text: documentation, READMEs, detail views, help pages.
+   Apply .prose to any container to get sensible spacing and styles on
+   plain semantic HTML — headings, paragraphs, lists, code, blockquotes.
+   Works on the page background or inside a card/panel without changes. */
+.prose {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-active);
+  max-width: 68ch;
+}
+
+/* All direct children get top margin; first child gets none so the
+   prose block doesn't add extra space at the top of its container. */
+.prose > * + * { margin-top: 1em; }
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-active);
+  margin-top: 1.75em;
+}
+
+/* First heading in a prose block needs no extra top push. */
+.prose > h1:first-child,
+.prose > h2:first-child,
+.prose > h3:first-child,
+.prose > h4:first-child { margin-top: 0; }
+
+.prose h1 { font-size: 1.5rem; }
+.prose h2 { font-size: 1.2rem; }
+.prose h3 { font-size: 1rem; }
+.prose h4 { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); }
+
+.prose p { margin-top: 0.75em; }
+.prose > p:first-child { margin-top: 0; }
+
+.prose a { color: var(--accent); text-decoration: none; }
+.prose a:hover { text-decoration: underline; }
+
+.prose strong { font-weight: 600; }
+.prose em { font-style: italic; }
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5em;
+  margin-top: 0.75em;
+}
+
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+
+.prose li + li { margin-top: 0.3em; }
+
+/* Inline code: same raised keycap look as <kbd>, but without the thick bottom border. */
+.prose code {
+  font-family: monospace;
+  font-size: 0.85em;
+  background: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+/* Code blocks: flat, slightly recessed — same philosophy as form inputs.
+   max-width overrides the parent .prose constraint so blocks fill their container. */
+.prose pre {
+  background: var(--container-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  max-width: 100%;
+  width: 100%;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* Blockquote: left-border callout pattern — same as .callout but prose-sized. */
+.prose blockquote {
+  border-left: 4px solid var(--surface-border);
+  padding: 4px 14px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--surface-border);
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
 /* =====================================================================
    END COMPONENT CSS
    ===================================================================== */
